@@ -73,6 +73,75 @@
       background: linear-gradient(to right, transparent, rgba(21,101,192,.35), transparent);
     }
 
+    /* --- tarjeta de texto sobre el divisor --- */
+    .divider-with-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+    .divider-card {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--negro);
+      border: 1px solid rgba(21,101,192,.4);
+      color: var(--azul-hielo);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      padding: 10px 24px;
+      border-radius: 100px;
+      white-space: nowrap;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+
+    /* --- nubes de texto flotantes (solo pantallas grandes, fuera del contenido) --- */
+    .text-cloud {
+      display: none;
+      position: absolute;
+      z-index: 4;
+      width: 190px;
+      background: var(--card);
+      border: 1px solid rgba(21,101,192,.4);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--azul-hielo);
+      line-height: 1.5;
+      box-shadow: 0 12px 30px rgba(0,0,0,.4);
+      opacity: 0;
+      transform: translateY(14px) scale(.92);
+      transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none;
+    }
+    .text-cloud.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+    .text-cloud::after {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      background: var(--card);
+    }
+    .cloud-right { left: calc(100% + 28px); }
+    .cloud-right::after {
+      left: -7px; top: 22px; transform: rotate(45deg);
+      border-left: 1px solid rgba(21,101,192,.4);
+      border-top: 1px solid rgba(21,101,192,.4);
+    }
+    .cloud-left { right: calc(100% + 28px); }
+    .cloud-left::after {
+      right: -7px; top: 22px; transform: rotate(45deg);
+      border-right: 1px solid rgba(21,101,192,.4);
+      border-bottom: 1px solid rgba(21,101,192,.4);
+    }
+    @media(min-width:1360px) {
+      .text-cloud { display: flex; align-items: center; }
+    }
+
     .section-header { text-align: center; margin-bottom: 56px; }
     .section-header h2 { margin-bottom: 14px; }
     .section-header p { max-width: 580px; margin: 0 auto; }
@@ -326,6 +395,7 @@
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; transition: none; }
       .dolor, .inc-card, .stat, .wa-btn { transition: none; animation: none; }
+      .text-cloud { transition: none; opacity: 1; transform: none; }
     }
 
     /* ===================== RESPONSIVE ===================== */
@@ -336,6 +406,15 @@
       .conf-inner { grid-template-columns: 1fr; gap: 32px; }
       .foto-wrap { max-width: 260px; margin: 0 auto; }
       .wa-btn { bottom: 20px; right: 20px; width: 52px; height: 52px; }
+    }
+    @media(max-width:480px) {
+      .divider-card {
+        font-size: .7rem;
+        padding: 8px 16px;
+        white-space: normal;
+        text-align: center;
+        max-width: 88%;
+      }
     }
   </style>
 </head>
@@ -365,21 +444,22 @@
       pero <span>no estás convirtiendo<br>en ventas?</span>
     </h1>
     <p class="hero-sub">
-      PULSO conecta tu publicidad con un proceso de atención y seguimiento automático —
-      para que ningún prospecto se vuelva a enfriar.
+     Probablemente ya estás invirtiendo en publicidad. La pregunta es: ¿cuántas ventas estás perdiendo mientras nadie responde, da seguimiento o sabe qué está fallando?
     </p>
     <div class="hero-cta">
-      <a href="https://wa.me/523129432365?text=Quiero%20mi%20diagn%C3%B3stico%20gratuito" class="btn" target="_blank">🩺 Quiero mi diagnóstico gratuito</a>
+      <a href="https://wa.me/523129432365?text=Quiero%20mi%20diagn%C3%B3stico%20gratuito" class="btn" target="_blank">Descubre donde se estan perdiendo tus ventas</a>
       <span class="hero-note">Sin costo · Sin compromiso · Por WhatsApp</span>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="divider divider-with-card">
+  <span class="divider-card">No estás perdiendo clientes porque tu negocio sea malo. Los estás perdiendo porque no existe un sistema que convierta el interés en seguimiento y el seguimiento en ventas.</span>
+</div>
 
 <!-- ======================== PROBLEMA ======================== -->
-<section id="problema">
-  <div class="container">
+<section id="problema" style="position:relative">
+  <div class="container" style="position:relative">
     <div class="section-header">
       <span class="label">El problema</span>
       <h2>¿Te suena familiar alguno de estos dolores?</h2>
@@ -407,10 +487,13 @@
         <h4>Siento que el dinero que meto en publicidad no regresa</h4>
       </div>
     </div>
+    <div class="text-cloud cloud-right" style="top:40px;">🙋‍♂️ No te vendemos una herramienta. Te entregamos un sistema funcionando</div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="divider divider-with-card">
+  <span class="divider-card">Cada prospecto recibe atención inmediata y llega a tu equipo con información suficiente para tomar decisiones más rápido.</span>
+</div>
 
 <!-- ======================== CÓMO FUNCIONA ======================== -->
 <section id="como-funciona">
@@ -468,8 +551,8 @@
 <div class="divider"></div>
 
 <!-- ======================== QUÉ INCLUYE ======================== -->
-<section id="incluye">
-  <div class="container">
+<section id="incluye" style="position:relative">
+  <div class="container" style="position:relative">
     <div class="section-header">
       <span class="label">Implementación completa</span>
       <h2>Todo lo que necesitas<br>para empezar a convertir</h2>
@@ -514,6 +597,7 @@
         <p>Análisis de tu cliente ideal, propuesta de mensajes clave y recomendación de formatos — incluido en la implementación.</p>
       </div>
     </div>
+    <div class="text-cloud cloud-left" style="top:30px;">🚀 Configurado y funcionando en días, no en meses</div>
   </div>
 </section>
 
@@ -614,6 +698,8 @@
 
     if (!('IntersectionObserver' in window)) {
       reveals.forEach(function (el) { el.classList.add('is-visible'); });
+      var cloudsFallback = document.querySelectorAll('.text-cloud');
+      cloudsFallback.forEach(function (el) { el.classList.add('is-visible'); });
       return;
     }
 
@@ -627,6 +713,17 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
     reveals.forEach(function (el) { observer.observe(el); });
+
+    var clouds = document.querySelectorAll('.text-cloud');
+    var cloudObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          cloudObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    clouds.forEach(function (el) { cloudObserver.observe(el); });
   })();
 </script>
 
